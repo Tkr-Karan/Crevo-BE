@@ -8,10 +8,10 @@ app = FastAPI(
 
 
 @app.get("/")
-def root():
+async def root():
     return {"message": "Hello World"}
 
 
 @app.get("/health")
-def health_check():
+async def health_check():
     return {"status": "Your server is working fine, and FastAPI working and running FINE!!!! :)"}
