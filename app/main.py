@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI, Depends
 from typing import Annotated
 from sqlalchemy.orm import Session
@@ -5,6 +7,13 @@ from sqlalchemy.orm import Session
 from app.db.database import engine, Session_Local, Base
 from app.models.user import User
 from app.schemas.user import UserCreate
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+ENV = os.getenv("ENV", "development")
+
 app = FastAPI(
     title="My FastAPI App",
     description="My FastAPI App",

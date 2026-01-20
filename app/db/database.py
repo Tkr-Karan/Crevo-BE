@@ -1,8 +1,12 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+import os
+from dotenv import load_dotenv
 
-URL_DATABASE = "postgresql://postgres:password!@localhost:5432/ai_platform"
+load_dotenv()
+
+URL_DATABASE = os.getenv("DATABASE_URL")
 
 engine = create_engine(URL_DATABASE)
 
