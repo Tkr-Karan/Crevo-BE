@@ -8,8 +8,11 @@ load_dotenv()
 
 URL_DATABASE = os.getenv("DATABASE_URL")
 
-engine = create_engine(URL_DATABASE)
+if not URL_DATABASE:
+    raise ValueError("DATABASE_URL environment variable not set!")
 
+# SSL required for Render
+engine = create_engine(URL_DATABASE, connect_args={"sslmode": "require"})
 
 Session_Local = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
