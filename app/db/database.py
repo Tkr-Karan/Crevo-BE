@@ -17,3 +17,11 @@ engine = create_engine(URL_DATABASE, connect_args={"sslmode": "require"})
 Session_Local = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+
+
+def get_db():
+    db = Session_Local()
+    try:
+        yield db
+    finally:
+        db.close()

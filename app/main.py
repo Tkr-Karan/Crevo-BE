@@ -1,14 +1,16 @@
 import os
 
 from fastapi import FastAPI, Depends
-from typing import Annotated
+from typing import Annotated, List
 from sqlalchemy.orm import Session
 
-from app.db.database import engine, Session_Local, Base
+from app.db.database import engine, Session_Local, Base, get_db
 from app.models.user import User
-from app.schemas.user import UserCreate
+from app.schemas.user import UserCreate, UserResponse
 import os
 from dotenv import load_dotenv
+from app.routes import users
+
 
 load_dotenv()
 
@@ -22,15 +24,18 @@ app = FastAPI(
 
 Base.metadata.create_all(bind=engine)
 
-def get_db():
-    db = Session_Local()
-    try:
-        yield db
-    finally:
-        db.close()
+# def get_db():
+#     db = Session_Local()
+#     try:
+#         yield db
+#     finally:
+#         db.close()
 
 
 db_dependency = Annotated[Session ,Depends(get_db)]
+
+
+app.include_router(users.router)
 
 
 @app.get("/")
@@ -43,17 +48,17 @@ async def health_check():
     return {"status": "Your server is working fine, and FastAPI working and running FINE!!!! :)"}
 
 
-@app.post("/test_db")
-async def test_db(user_data:UserCreate ,db: db_dependency):
-    user = User(
-        email=user_data.email,
-        password=user_data.password,
-    )
-
-    db.add(user)
-    db.commit()
-    db.refresh(user)
-
+@app.get("/test_db")
+async def test_db(db: db_dependency):
+    # user = User(
+    #     email=user_data.email,
+    #     password=user_data.password,
+    # )
+    #
+    # db.add(user)
+    # db.commit()
+    # db.refresh(user)
+    #
 
     users = db.query(User).all()
 
