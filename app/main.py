@@ -22,9 +22,15 @@ app = FastAPI(
     version="0.0.1",
 )
 
+allow_origins_list = [
+    "http://localhost:5173",   # Vite
+    "http://localhost:8081",   # React
+    "https://aelyx.netlify.app"
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allow_origins_list,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
