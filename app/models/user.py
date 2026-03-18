@@ -1,4 +1,6 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from datetime import datetime
+
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
 from app.db.database import Base
 
 class User(Base):
@@ -10,3 +12,9 @@ class User(Base):
 
     is_active = Column(Boolean, default=True)
     is_verified = Column(Boolean, default=False)
+
+class EarlyAccessUser(Base):
+    __tablename__ = "early-users"
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String(255), unique=True, nullable=False, index=True)
+    created_at = Column(DateTime, default=datetime.now())

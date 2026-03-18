@@ -1,8 +1,8 @@
 import os
-
 from fastapi import FastAPI, Depends
 from typing import Annotated, List
 from sqlalchemy.orm import Session
+from starlette.middleware.cors import CORSMiddleware
 
 from app.db.database import engine, Session_Local, Base, get_db
 from app.models.user import User
@@ -20,6 +20,14 @@ app = FastAPI(
     title="My FastAPI App",
     description="My FastAPI App",
     version="0.0.1",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 Base.metadata.create_all(bind=engine)

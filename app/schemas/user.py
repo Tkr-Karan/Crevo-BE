@@ -6,6 +6,9 @@ class UserCreate(BaseModel):
     email: EmailStr
     password: str
 
+class EarlyAccessUserCreate(BaseModel):
+    email: EmailStr
+
 class UserResponse(BaseModel):
     id: int
     email: EmailStr
