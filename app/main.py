@@ -1,5 +1,5 @@
 import os
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Response
 from typing import Annotated, List
 from sqlalchemy.orm import Session
 from starlette.middleware.cors import CORSMiddleware
@@ -61,6 +61,9 @@ async def root():
 async def health_check():
     return {"status": "Your server is working fine, and FastAPI working and running FINE!!!! :)"}
 
+@app.head("/health")
+async def health_check():
+    return Response(status_code=200)
 
 @app.get("/test_db")
 async def test_db(db: db_dependency):
